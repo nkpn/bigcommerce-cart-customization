@@ -145,20 +145,22 @@ export default class Cart extends PageManager {
               relatedProductsArray.forEach(product => {
                 const card = createProductCard(product);
                 relatedItemsContainer.appendChild(card);
-                // $(relatedItemsContainer).slick({
-                //     accessibility: false,
-                //     arrows: true,
-                //     infinite: true,
-                //     slidesToShow: 3,
-                //     slidesToScroll: 3,
-                //     speed: 600,
-                // });
-                console.log($(relatedItemsContainer))
               })
 
+
+              $('.related-items-section').slick({
+                arrows: true,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                speed: 600,
+            });
+            
               const endTime = performance.now();
               const duration = (endTime - startTime) / 1000;
               console.log('The function duration time is:', duration)
+
+
             } catch (error) {
               console.error('Error fetching related products data:', error);
             }
