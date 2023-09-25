@@ -24,13 +24,15 @@ export default class Cart extends PageManager {
         this.setApplePaySupport();
         this.bindEvents();
 
+        console.log(this.context)
         if (this.context.cartProductsArray.length){
             this.updateRelatedProducts(this.context)
         }
     }
 
     updateRelatedProducts(context){
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly9zdG9yZS1zcXhzZnduMHBoLm15YmlnY29tbWVyY2UuY29tIl0sImVhdCI6MTY5NTcyMzM5MCwiaWF0IjoxNjk1NTUwNTkwLCJpc3MiOiJCQyIsInNpZCI6MTAwMzAyMzUzOSwic3ViIjoiYmNhcHAubGlua2VyZCIsInN1Yl90eXBlIjowLCJ0b2tlbl90eXBlIjoxfQ.qJAzKMuwqKi5XMD0wNF2NJpNwrJ3QgYHkWHt-X1SuvoOcnFca-Yj04X318usSENzx_fHEOpObjVgHgMQejjWEg';
+        const token = context.storefrontAPIToken;
+        console.log(token)
         const relatedProductsArray = [];
         const startTime = performance.now(); 
 
@@ -48,7 +50,6 @@ export default class Cart extends PageManager {
                     <a href="${product.path}">${product.name}</a>
                 </h3>
             </div>`
-            console.log(productCard)
             return productCard;
         }
 
@@ -84,6 +85,8 @@ export default class Cart extends PageManager {
               });
           
               const data = await response.json();
+
+              console.log('data in get product info', data)
           
               // Push the result into the relatedProductsArray
               relatedProductsArray.push(data.data.site.product);
@@ -125,6 +128,8 @@ export default class Cart extends PageManager {
               });
           
               const data = await response.json();
+
+              console.log('data in related products', data)
           
               const relatedProductsIDs = data.data.site.product.relatedProducts.edges.map(
                 (edge) => edge.node.entityId
@@ -140,7 +145,6 @@ export default class Cart extends PageManager {
               console.log(relatedProductsArray);
 
               const relatedItemsContainer = document.querySelector('.related-items-section');
-              console.log(relatedItemsContainer);
 
               relatedProductsArray.forEach(product => {
                 const card = createProductCard(product);
